@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversor de Unidades</title>
+</head>
+<body>
+
+  <header>
+    <h1>Conversor de Unidades</h1>
+    <p>Escolha o tipo de conversão e insira os valores.</p>
+  </header>
+
+  <main>
+    <section>
+      <h2>Conversão de Comprimento</h2>
+      <form>
+        <label for="valor-comprimento">Valor:</label>
+        <input type="text" id="valor-comprimento" name="valor-comprimento">
+
+        <label for="de-comprimento">De:</label>
+        <select id="de-comprimento" name="de-comprimento">
+          <option value="metros">Metros</option>
+          <option value="centimetros">Centímetros</option>
+          <option value="milimetros">Milímetros</option>
+        </select>
+
+        <label for="para-comprimento">Para:</label>
+        <select id="para-comprimento" name="para-comprimento">
+          <option value="metros">Metros</option>
+          <option value="centimetros">Centímetros</option>
+          <option value="milimetros">Milímetros</option>
+        </select>
+
+        <input type="submit" value="Converter">
+      </form>
+    </section>
+
+    <section>
+      <h2>Conversão de Temperatura</h2>
+      <form>
+        <label for="valor-temperatura">Valor:</label>
+        <input type="text" id="valor-temperatura" name="valor-temperatura">
+
+        <label for="de-temperatura">De:</label>
+        <select id="de-temperatura" name="de-temperatura">
+          <option value="celsius">Celsius</option>
+          <option value="fahrenheit">Fahrenheit</option>
+          <option value="kelvin">Kelvin</option>
+        </select>
+
+        <label for="para-temperatura">Para:</label>
+        <select id="para-temperatura" name="para-temperatura">
+          <option value="celsius">Celsius</option>
+          <option value="fahrenheit">Fahrenheit</option>
+          <option value="kelvin">Kelvin</option>
+        </select>
+
+        <input type="submit" value="Converter">
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Ivar - Conversor de Unidades em HTML</p>
+  </footer>
+
+</body>
+</html>
