@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seu Clone do Discord</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header">
+        <nav class="navbar">
+            <a href="#" class="nav-logo">
+                <img src="assets/discord-logo.svg" alt="Logo do Discord">
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#">Baixar</a></li>
+                <li><a href="#">Nitro</a></li>
+                <li><a href="#">Segurança</a></li>
+                <li><a href="#">Suporte</a></li>
+            </ul>
+            <a href="#" class="nav-login-button">Entrar</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1>IMAGINE UM LUGAR...</h1>
+                <p>…onde você possa pertencer a um clube escolar, um grupo de gamers, ou uma comunidade artística mundial. Onde você e alguns amigos possam passar um tempo juntos. Um lugar que torna fácil conversar todos os dias e socializar com mais frequência.</p>
+                <div class="hero-buttons">
+                    <a href="#" class="button button-light">Baixar para Windows</a>
+                    <a href="#" class="button button-dark">Abra o Discord no seu navegador</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="content-container">
+                <img src="assets/section-image-1.svg" alt="Canais de texto e voz" class="content-image">
+                <div class="content-text">
+                    <h2>Crie um lugar onde você pertença</h2>
+                    <p>Os servidores Discord são organizados em canais com assuntos para vocês colaborarem, compartilharem ou simplesmente falarem do dia sem entupir um chat em grupo.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section bg-gray">
+             <div class="content-container reverse">
+                <img src="assets/section-image-2.svg" alt="Comunidades" class="content-image">
+                <div class="content-text">
+                    <h2>Aqui é fácil começar</h2>
+                    <p>Entre em um servidor e assuma um cargo de moderação, ou crie o seu próprio servidor com sua comunidade. As possibilidades são infinitas.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
+
+/* --- ESTILOS GLOBAIS E VARIÁVEIS --- */
+:root {
+    --discord-blue: #5865F2;
+    --dark-not-black: #2c2f33;
+    --dark-gray: #23272a;
+    --white: #ffffff;
+    --off-white: #f6f6f6;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: var(--dark-not-black);
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+}
+
+.button {
+    display: inline-block;
+    padding: 16px 32px;
+    border-radius: 28px;
+    font-size: 20px;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+.button-light {
+    background-color: var(--white);
+    color: var(--dark-gray);
+}
+.button-light:hover {
+    box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+    color: var(--discord-blue);
+}
+
+.button-dark {
+    background-color: var(--dark-gray);
+    color: var(--white);
+}
+.button-dark:hover {
+    background-color: #3e4247;
+}
+
+
+/* --- CABEÇALHO E NAVEGAÇÃO --- */
+.main-header {
+    background-color: var(--discord-blue);
+    padding: 15px 40px;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.nav-logo img {
+    width: 120px;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 40px;
+}
+
+.nav-menu a {
+    color: var(--white);
+    font-weight: 700;
+}
+.nav-menu a:hover {
+    text-decoration: underline;
+}
+
+.nav-login-button {
+    background-color: var(--white);
+    color: var(--dark-gray);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+}
+.nav-login-button:hover {
+    color: var(--discord-blue);
+}
+
+
+/* --- SEÇÃO HERO --- */
+.hero-section {
+    background-color: var(--discord-blue);
+    background-image: url('assets/hero-background.svg'); /* Baixe uma imagem de fundo do Discord */
+    background-size: cover;
+    background-position: center;
+    padding: 120px 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.hero-content {
+    text-align: center;
+    color: var(--white);
+    max-width: 800px;
+}
+
+.hero-content h1 {
+    font-size: 56px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.hero-content p {
+    font-size: 20px;
+    line-height: 1.6;
+    margin: 40px 0;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+/* --- SEÇÕES DE CONTEÚDO --- */
+.content-section {
+    padding: 120px 40px;
+}
+
+.bg-gray {
+    background-color: var(--off-white);
+}
+
+.content-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 50px;
+}
+
+.content-container.reverse {
+    flex-direction: row-reverse;
+}
+
+.content-image {
+    max-width: 600px;
+}
+
+.content-text h2 {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 24px;
+}
+
+.content-text p {
+    font-size: 20px;
+    line-height: 1.6;
+}
+
+
+/* 🔥🔥🔥 AQUI COMEÇA A RESPONSIVIDADE 🔥🔥🔥 */
+
+/* --- TABLETS (Até 992px) --- */
+@media (max-width: 992px) {
+    .nav-menu {
+        display: none; /* Em um projeto real, aqui entraria um menu hamburguer */
+    }
+
+    .hero-content h1 { font-size: 48px; }
+    .hero-content p { font-size: 18px; }
+
+    .content-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .content-container.reverse {
+        flex-direction: column; /* Mantém a coluna mesmo com a classe .reverse */
+    }
+
+    .content-image { max-width: 100%; }
+    .content-text h2 { font-size: 36px; }
+    .content-text p { font-size: 18px; }
+}
+
+
+/* --- CELULARES (Até 768px) --- */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 32px;
+    }
+    .hero-content p {
+        font-size: 16px;
+        margin: 20px 0;
+    }
+
+    .hero-buttons {
+        flex-direction: column; /* Botões um embaixo do outro */
+        align-items: center;
+    }
+    
+    .button {
+        width: 100%;
+        text-align: center;
+    }
+
+    .content-section {
+        padding: 60px 20px;
+    }
+
+    .content-text h2 {
+        font-size: 28px;
+    }
+    .content-text p {
+        font-size: 16px;
+    }
+}
