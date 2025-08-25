@@ -1,0 +1,161 @@
+/* Reset Básico e Estilos Globais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f9f9f9;
+}
+
+/* 1. Estilos do Cabeçalho (Header) */
+.header {
+    /* ✨ A MÁGICA DO FLEXBOX COMEÇA AQUI! ✨ */
+    display: flex;
+    justify-content: space-between; /* Alinha os 3 containers filhos com espaço entre eles */
+    align-items: center;            /* Alinha os itens verticalmente ao centro */
+    padding: 0 20px;
+    height: 60px;
+    background-color: white;
+    border-bottom: 1px solid #ddd;
+    position: sticky; /* Fixa o header no topo */
+    top: 0;
+    z-index: 100;
+}
+
+.header-left, .header-right {
+    display: flex;
+    align-items: center;
+}
+
+.youtube-logo {
+    height: 25px;
+    margin-left: 20px;
+}
+
+.header-center {
+    display: flex;
+    flex: 0.5; /* Permite que o centro ocupe o espaço disponível */
+    justify-content: center;
+}
+
+.search-bar {
+    display: flex;
+    width: 100%;
+    max-width: 600px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-right: none;
+}
+
+.search-bar button {
+    padding: 0 20px;
+    border: 1px solid #ccc;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+.material-icons {
+    color: #606060;
+    margin: 0 10px;
+    cursor: pointer;
+}
+
+/* 2. Estilos do Corpo Principal (main-body) */
+.main-body {
+    /* ✨ FLEXBOX PARA O LAYOUT PRINCIPAL ✨ */
+    display: flex;
+    height: calc(100vh - 60px); /* Altura total da tela menos a altura do header */
+}
+
+/* 3. Estilos da Barra Lateral (Sidebar) */
+.sidebar {
+    width: 240px;
+    background-color: white;
+    padding-top: 10px;
+}
+
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    text-decoration: none;
+    color: #030303;
+}
+
+.sidebar-link.active {
+    background-color: #e5e5e5;
+}
+
+.sidebar-link:hover {
+    background-color: #f0f0f0;
+}
+
+.sidebar-link span {
+    margin-left: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.sidebar hr {
+    border: 0;
+    border-top: 1px solid #e5e5e5;
+    margin: 10px 0;
+}
+
+/* 4. Estilos da Grade de Vídeos (video-grid) */
+.video-grid {
+    /* ✨ FLEXBOX PARA A GRADE DE VÍDEOS ✨ */
+    display: flex;
+    flex-wrap: wrap;     /* Permite que os itens quebrem para a próxima linha */
+    justify-content: flex-start; /* Alinha os itens no início */
+    padding: 20px;
+    flex: 1;             /* Faz a grade ocupar todo o espaço restante */
+    overflow-y: auto;    /* Adiciona scroll se os vídeos ultrapassarem a altura */
+}
+
+.video-card {
+    width: calc(25% - 15px); /* 4 colunas com espaçamento */
+    margin-right: 20px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+/* Ajuste para a última coluna não ter margem direita */
+.video-card:nth-child(4n) {
+    margin-right: 0;
+}
+
+.video-thumbnail {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.video-info {
+    display: flex;
+    margin-top: 10px;
+}
+
+.channel-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.video-title {
+    font-size: 16px;
+    color: #030303;
+    margin-bottom: 4px;
+}
+
+.channel-name, .video-views {
+    font-size: 14px;
+    color: #606060;
+}
