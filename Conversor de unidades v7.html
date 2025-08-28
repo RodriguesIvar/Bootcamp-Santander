@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor Universal</title>
+    
+    <style>
+        /* ===== RESETAR ESTILOS E CONFIGURAÇÕES BÁSICAS ===== */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.4;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        /* ===== CONTAINER PRINCIPAL ===== */
+        .aplicativo {
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* ===== CABEÇALHO DO APLICATIVO ===== */
+        .cabecalho {
+            background: linear-gradient(135deg, #dc3545, #6c757d);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .titulo_principal { 
+            font-size: 24px; 
+            font-weight: normal; 
+        }
+        
+        /* ===== GRADE DE CONVERSORES ===== */
+        .grade_conversores {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1px;
+            background: #e9ecef;
+        }
+        
+        /* ===== CADA CARTÃO DE CONVERSOR ===== */
+        .cartao_conversor {
+            background: white;
+            padding: 20px;
+        }
+        
+        .titulo_conversor {
+            color: #dc3545;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        /* ===== CONTROLES DE ENTRADA ===== */
+        .controles_entrada {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .campo_numero, .seletor_unidade, .botao_converter {
+            padding: 8px 12px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .campo_numero {
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .seletor_unidade {
+            background: white;
+            cursor: pointer;
+        }
+        
+        .botao_converter {
+            background: #dc3545;
+            color: white;
+            border-color: #dc3545;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .botao_converter:hover {
+            background: #c82333;
+        }
+        
+        /* ===== ÁREA DE RESULTADO ===== */
+        .area_resultado {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 4px;
+            border-left: 3px solid #6c757d;
+            font-weight: 500;
+            color: #495057;
+        }
+        
+        .resultado_numerico {
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .resultado_extenso {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        /* ===== RESPONSIVIDADE PARA DISPOSITIVOS MÓVEIS ===== */
+        @media (max-width: 640px) {
+            .aplicativo { 
+                margin: 10px; 
+            }
+            .grade_conversores { 
+                grid-template-columns: 1fr; 
+            }
+            .controles_entrada { 
+                flex-direction: column; 
+            }
+            .campo_numero, .seletor_unidade, .botao_converter { 
+                width: 100%; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="aplicativo">
+        <!-- ===== CABEÇALHO ===== -->
+        <header class="cabecalho">
+            <h1 class="titulo_principal">⚡ Conversor Universal</h1>
+            <p>Conversões rápidas e precisas com números por extenso</p>
+        </header>
+        
+        <!-- ===== GRADE DE CONVERSORES ===== -->
+        <div class="grade_conversores">
+            
+            <!-- CONVERSOR DE COMPRIMENTO -->
+            <div class="cartao_conversor">
+                <h3 class="titulo_conversor">📏 Comprimento</h3>
+                <div class="controles_entrada">
+                    <input type="number" class="campo_numero" id="valor_comprimento" placeholder="Digite o valor">
+                    <select class="seletor_unidade" id="de_comprimento">
+                        <option value="m">Metro</option>
+                        <option value="cm">Centímetro</option>
+                        <option value="mm">Milímetro</option>
+                        <option value="km">Quilômetro</option>
+                    </select>
+                    <select class="seletor_unidade" id="para_comprimento">
+                        <option value="cm">Centímetro</option>
+                        <option value="m">Metro</option>
+                        <option value="mm">Milímetro</option>
+                        <option value="km">Quilômetro</option>
+                    </select>
+                    <button class="botao_converter" onclick="converterUnidade('comprimento')">Converter</button>
+                </div>
+                <div class="area_resultado" id="resultado_comprimento">Digite um valor para converter</div>
+            </div>
+            
+            <!-- CONVERSOR DE PESO -->
+            <div class="cartao_conversor">
+                <h3 class="titulo_conversor">⚖️ Peso</h3>
+                <div class="controles_entrada">
+                    <input type="number" class="campo_numero" id="valor_peso" placeholder="Digite o valor">
+                    <select class="seletor_unidade" id="de_peso">
+                        <option value="kg">Quilograma</option>
+                        <option value="g">Grama</option>
+                        <option value="t">Tonelada</option>
+                        <option value="lb">Libra</option>
+                    </select>
+                    <select class="seletor_unidade" id="para_peso">
+                        <option value="g">Grama</option>
+                        <option value="kg">Quilograma</option>
+                        <option value="t">Tonelada</option>
+                        <option value="lb">Libra</option>
+                    </select>
+                    <button class="botao_converter" onclick="converterUnidade('peso')">Converter</button>
+                </div>
+                <div class="area_resultado" id="resultado_peso">Digite um valor para converter</div>
+            </div>
+            
+            <!-- CONVERSOR DE TEMPERATURA -->
+            <div class="cartao_conversor">
+                <h3 class="titulo_conversor">🌡️ Temperatura</h3>
+                <div class="controles_entrada">
+                    <input type="number" class="campo_numero" id="valor_temperatura" placeholder="Digite o valor">
+                    <select class="seletor_unidade" id="de_temperatura">
+                        <option value="c">Celsius</option>
+                        <option value="f">Fahrenheit</option>
+                        <option value="k">Kelvin</option>
+                    </select>
+                    <select class="seletor_unidade" id="para_temperatura">
+                        <option value="f">Fahrenheit</option>
+                        <option value="c">Celsius</option>
+                        <option value="k">Kelvin</option>
+                    </select>
+                    <button class="botao_converter" onclick="converterUnidade('temperatura')">Converter</button>
+                </div>
+                <div class="area_resultado" id="resultado_temperatura">Digite um valor para converter</div>
+            </div>
+            
+            <!-- CONVERSOR DE VELOCIDADE -->
+            <div class="cartao_conversor">
+                <h3 class="titulo_conversor">🚀 Velocidade</h3>
+                <div class="controles_entrada">
+                    <input type="number" class="campo_numero" id="valor_velocidade" placeholder="Digite o valor">
+                    <select class="seletor_unidade" id="de_velocidade">
+                        <option value="ms">m/s</option>
+                        <option value="kmh">km/h</option>
+                        <option value="mph">mph</option>
+                        <option value="kt">nós</option>
+                    </select>
+                    <select class="seletor_unidade" id="para_velocidade">
+                        <option value="kmh">km/h</option>
+                        <option value="ms">m/s</option>
+                        <option value="mph">mph</option>
+                        <option value="kt">nós</option>
+                    </select>
+                    <button class="botao_converter" onclick="converterUnidade('velocidade')">Converter</button>
+                </div>
+                <div class="area_resultado" id="resultado_velocidade">Digite um valor para converter</div>
+            </div>
+            
+            <!-- CONVERSOR DE ÁREA -->
+            <div class="cartao_conversor">
+                <h3 class="titulo_conversor">📐 Área</h3>
+                <div class="controles_entrada">
+                    <input type="number" class="campo_numero" id="valor_area" placeholder="Digite o valor">
+                    <select class="seletor_unidade" id="de_area">
+                        <option value="m2">m²</option>
+                        <option value="cm2">cm²</option>
+                        <option value="km2">km²</option>
+                        <option value="ha">hectare</option>
+                    </select>
+                    <select class="seletor_unidade" id="para_area">
+                        <option value="cm2">cm²</option>
+                        <option value="m2">m²</option>
+                        <option value="km2">km²</option>
+                        <option value="ha">hectare</option>
+                    </select>
+                    <button class="botao_converter" onclick="converterUnidade('area')">Converter</button>
+                </div>
+                <div class="area_resultado" id="resultado_area">Digite um valor para converter</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== CONFIGURAÇÕES DOS CONVERSORES =====
+        // Aqui definimos todos os dados necessários para cada tipo de conversão
+        const configuracaoConversores = {
+            // COMPRIMENTO - base: metro
+            comprimento: {
+                fatores: { 
+                    m: 1,          // 1 metro = 1 metro
+                    cm: 0.01,      // 1 centímetro = 0.01 metro
+                    mm: 0.001,     // 1 milímetro = 0.001 metro
+                    km: 1000       // 1 quilômetro = 1000 metros
+                },
+                nomes: { 
+                    m: 'metro(s)', 
+                    cm: 'centímetro(s)', 
+                    mm: 'milímetro(s)', 
+                    km: 'quilômetro(s)' 
+                }
+            },
+            
+            // PESO - base: grama  
+            peso: {
+                fatores: { 
+                    g: 1,           // 1 grama = 1 grama
+                    kg: 1000,       // 1 quilograma = 1000 gramas
+                    t: 1000000,     // 1 tonelada = 1.000.000 gramas
+                    lb: 453.592     // 1 libra = 453.592 gramas
+                },
+                nomes: { 
+                    g: 'grama(s)', 
+                    kg: 'quilograma(s)', 
+                    t: 'tonelada(s)', 
+                    lb: 'libra(s)' 
+                }
+            },
+            
+            // TEMPERATURA - conversões especiais
+            temperatura: {
+                especial: true,
+                nomes: { 
+                    c: '°C', 
+                    f: '°F', 
+                    k: 'K' 
+                }
+            },
+            
+            // VELOCIDADE - base: m/s
+            velocidade: {
+                fatores: { 
+                    ms: 1,          // 1 m/s = 1 m/s
+                    kmh: 0.277778,  // 1 km/h = 0.277778 m/s
+                    mph: 0.44704,   // 1 mph = 0.44704 m/s
+                    kt: 0.514444    // 1 nó = 0.514444 m/s
+                },
+                nomes: { 
+                    ms: 'm/s', 
+                    kmh: 'km/h', 
+                    mph: 'mph', 
+                    kt: 'nós' 
+                }
+            },
+            
+            // ÁREA - base: m²
+            area: {
+                fatores: { 
+                    m2: 1,          // 1 m² = 1 m²
+                    cm2: 0.0001,    // 1 cm² = 0.0001 m²
+                    km2: 1000000,   // 1 km² = 1.000.000 m²
+                    ha: 10000       // 1 hectare = 10.000 m²
+                },
+                nomes: { 
+                    m2: 'm²', 
+                    cm2: 'cm²', 
+                    km2: 'km²', 
+                    ha: 'hectare(s)' 
+                }
+            }
+        };
+
+        // ===== FUNÇÃO PARA ESCREVER NÚMEROS POR EXTENSO =====
+        function escreverNumeroExtenso(numero) {
+            // Se for zero, retorna direto
+            if (numero === 0) return 'zero';
+            
+            // Arrays com as palavras para cada posição
+            const unidades = ['', 'um', 'dois', 'três', 'quatro', 'cinco', 'seis', 'sete', 'oito', 'nove'];
+            const numerosEspeciais = ['dez', 'onze', 'doze', 'treze', 'quatorze', 'quinze', 'dezesseis', 'dezessete', 'dezoito', 'dezenove'];
+            const dezenas = ['', '', 'vinte', 'trinta', 'quarenta', 'cinquenta', 'sessenta', 'setenta', 'oitenta', 'noventa'];
+            const centenas = ['', 'cento', 'duzentos', 'trezentos', 'quatrocentos', 'quinhentos', 'seiscentos', 'setecentos', 'oitocentos', 'novecentos'];
+            
+            // Função para converter grupos de até 3 dígitos
+            function converterGrupo(numeroGrupo) {
+                if (numeroGrupo === 0) return '';
+                if (numeroGrupo === 100) return 'cem';
+                
+                let resultado = '';
+                const centena = Math.floor(numeroGrupo / 100);
+                const dezena = Math.floor((numeroGrupo % 100) / 10);
+                const unidade = numeroGrupo % 10;
+                
+                // Adicionar centenas
+                if (centena > 0) resultado += centenas[centena];
+                
+                // Tratar números de 10 a 19 (especiais)
+                if (dezena === 1) {
+                    if (resultado) resultado += ' e ';
+                    resultado += numerosEspeciais[unidade];
+                } else {
+                    // Adicionar dezenas
+                    if (dezena > 0) {
+                        if (resultado) resultado += ' e ';
+                        resultado += dezenas[dezena];
+                    }
+                    // Adicionar unidades
+                    if (unidade > 0) {
+                        if (resultado) resultado += ' e ';
+                        resultado += unidades[unidade];
+                    }
+                }
+                return resultado;
+            }
+            
+            // Para números menores que 1000
+            if (numero < 1000) return converterGrupo(numero);
+            
+            // Para números maiores que 1000
+            const milhares = Math.floor(numero / 1000);
+            const resto = numero % 1000;
+            
+            let resultado = '';
+            
+            if (milhares === 1) {
+                resultado = 'mil';
+            } else if (milhares < 1000) {
+                resultado = converterGrupo(milhares) + ' mil';
+            } else {
+                // Para milhões
+                const milhoes = Math.floor(milhares / 1000);
+                const milharesResto = milhares % 1000;
+                
+                if (milhoes === 1) {
+                    resultado = 'um milhão';
+                } else {
+                    resultado = converterGrupo(milhoes) + ' milhões';
+                }
+                
+                if (milharesResto > 0) {
+                    resultado += ' e ' + converterGrupo(milharesResto) + ' mil';
+                }
+            }
+            
+            // Adicionar o resto (unidades, dezenas, centenas)
+            if (resto > 0) {
+                resultado += ' e ' + converterGrupo(resto);
+            }
+            
+            return resultado;
+        }
+
+        // ===== FUNÇÃO PRINCIPAL DE CONVERSÃO =====
+        function converterUnidade(tipoConversor) {
+            // Pegar os valores dos campos HTML
+            const valorDigitado = parseFloat(document.getElementById(`valor_${tipoConversor}`).value);
+            const unidadeOrigem = document.getElementById(`de_${tipoConversor}`).value;
+            const unidadeDestino = document.getElementById(`para_${tipoConversor}`).value;
+            const elementoResultado = document.getElementById(`resultado_${tipoConversor}`);
+            
+            // Verificar se o usuário digitou um número válido
+            if (isNaN(valorDigitado) || valorDigitado === '') {
+                elementoResultado.textContent = 'Por favor, digite um valor válido!';
+                return;
+            }
+            
+            let valorConvertido;
+            
+            // Se for temperatura, usar função especial
+            if (tipoConversor === 'temperatura') {
+                valorConvertido = converterTemperatura(valorDigitado, unidadeOrigem, unidadeDestino);
+            } else {
+                // Para outros tipos: converter usando o método de unidade base
+                const configuracao = configuracaoConversores[tipoConversor];
+                const valorNaUnidadeBase = valorDigitado * configuracao.fatores[unidadeOrigem];
+                valorConvertido = valorNaUnidadeBase / configuracao.fatores[unidadeDestino];
+            }
+            
+            // Pegar os nomes das unidades
+            const nomesUnidades = configuracaoConversores[tipoConversor].nomes;
+            
+            // Formatar o número com separadores de milhares
+            const formatarNumeroComSeparadores = (numero) => {
+                const numeroArredondado = numero.toFixed(2);
+                const [parteInteira, parteDecimal] = numeroArredondado.split('.');
+                const inteiroFormatado = parteInteira.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+                return parteDecimal ? `${inteiroFormatado}.${parteDecimal}` : inteiroFormatado;
+            };
+            
+            // Gerar o número por extenso (com decimais)
+            const valorArredondado = Math.round(valorConvertido * 100) / 100;
+            const parteInteira = Math.floor(valorArredondado);
+            const parteDecimal = Math.round((valorArredondado - parteInteira) * 100);
+            
+            let numeroExtenso = escreverNumeroExtenso(parteInteira);
+            
+            // Adicionar a parte decimal por extenso
+            if (parteDecimal > 0) {
+                const extensoDecimal = escreverNumeroExtenso(parteDecimal);
+                if (parteDecimal === 1) {
+                    numeroExtenso += ' vírgula zero um';
+                } else if (parteDecimal < 10) {
+                    numeroExtenso += ' vírgula zero ' + extensoDecimal;
+                } else {
+                    numeroExtenso += ' vírgula ' + extensoDecimal;
+                }
+            }
+            
+            // Mostrar o resultado formatado
+            elementoResultado.innerHTML = `
+                <div class="resultado_numerico">
+                    <strong>${formatarNumeroComSeparadores(valorDigitado)} ${nomesUnidades[unidadeOrigem]} = ${formatarNumeroComSeparadores(valorConvertido)} ${nomesUnidades[unidadeDestino]}</strong>
+                </div>
+                <div class="resultado_extenso">
+                    ${numeroExtenso} ${nomesUnidades[unidadeDestino].replace(/\([^)]*\)/g, '').trim()}
+                </div>
+            `;
+        }
+        
+        // ===== FUNÇÃO ESPECIAL PARA CONVERSÕES DE TEMPERATURA =====
+        function converterTemperatura(valor, unidadeOrigem, unidadeDestino) {
+            // Se as unidades são iguais, não precisa converter
+            if (unidadeOrigem === unidadeDestino) return valor;
+            
+            // Primeiro, converter para Celsius (unidade base)
+            let celsius = valor;
+            if (unidadeOrigem === 'f') {
+                celsius = (valor - 32) * 5/9;  // Fahrenheit para Celsius
+            }
+            if (unidadeOrigem === 'k') {
+                celsius = valor - 273.15;      // Kelvin para Celsius
+            }
+            
+            // Depois, converter de Celsius para a unidade desejada
+            if (unidadeDestino === 'c') return celsius;
+            if (unidadeDestino === 'f') return celsius * 9/5 + 32;  // Celsius para Fahrenheit
+            if (unidadeDestino === 'k') return celsius + 273.15;    // Celsius para Kelvin
+        }
+    </script>
+</body>
+</html>
