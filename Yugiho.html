@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yu-Gi-Oh! Jokenpo</title>
+    
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a1a;
+            color: #fff;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-shadow: 2px 2px 4px #000;
+            background-image: url('https://wallpapercave.com/wp/wp12035313.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            max-width: 1000px;
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            border: 2px solid #fddb00;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            font-size: 1.5em;
+        }
+
+        .score-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+        }
+
+        .result-box p {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #fddb00;
+            margin: 0;
+        }
+
+        .battle-field {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            min-height: 250px;
+            width: 100%;
+        }
+
+        .card-box {
+            width: 150px;
+            height: 220px;
+            background-color: #2c2c2c;
+            border: 2px solid #fddb00;
+            border-radius: 10px;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: transform 0.3s ease;
+        }
+
+        .versus-icon {
+            width: 50px;
+        }
+
+        .player-cards {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            min-height: 180px; /* Garante espaço mesmo vazio */
+        }
+
+        .card {
+            width: 120px;
+            height: 180px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-radius: 8px;
+            border: 1px solid #fff;
+        }
+
+        .card:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 15px #fddb00;
+        }
+        
+        .action-buttons {
+            min-height: 60px; /* Garante espaço para o botão */
+        }
+
+        .button {
+            background-color: #fddb00;
+            color: #1a1a1a;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: background-color 0.2s;
+            display: none; /* Começa escondido */
+        }
+
+        .button:hover {
+            background-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="game-info">
+            <div class="score-box">
+                <span id="player-score">0</span>
+                <span>Jogador</span>
+            </div>
+            <div class="result-box">
+                <p id="text-result">Escolha uma carta!</p>
+            </div>
+            <div class="score-box">
+                <span>Computador</span>
+                <span id="computer-score">0</span>
+            </div>
+        </div>
+
+        <div class="battle-field">
+            <div class="card-box" id="card-result-player"></div>
+            <img src="https://www.pngkit.com/png/full/19-191983_vs-png.png" class="versus-icon" alt="vs">
+            <div class="card-box" id="card-result-computer"></div>
+        </div>
+
+        <div class="action-buttons">
+            <button id="next-duel-btn" class="button">Próximo Duelo</button>
+        </div>
+
+        <div class="player-cards" id="player-card-options"></div>
+    </div>
+
+    <script>
+        // Objeto 'state' para gerenciar o estado do jogo
+        const state = {
+            cards: [
+                {
+                    id: 0,
+                    name: "Blue-Eyes White Dragon",
+                    type: "Ataque", // Pedra
+                    img: "https://images.ygoprodeck.com/images/cards/89631139.jpg",
+                },
+                {
+                    id: 1,
+                    name: "Dark Magician",
+                    type: "Magia", // Papel
+                    img: "https://images.ygoprodeck.com/images/cards/46986414.jpg",
+                },
+                {
+                    id: 2,
+                    name: "Lord of D.",
+                    type: "Defesa", // Tesoura
+                    img: "https://images.ygoprodeck.com/images/cards/82567792.jpg",
+                },
+            ],
+            game: {
+                playerCard: null,
+                computerCard: null,
+            },
+            score: {
+                player: 0,
+                computer: 0,
+            },
+            ui: {
+                playerScore: document.getElementById("player-score"),
+                computerScore: document.getElementById("computer-score"),
+                cardResultPlayer: document.getElementById("card-result-player"),
+                cardResultComputer: document.getElementById("card-result-computer"),
+                textResult: document.getElementById("text-result"),
+                nextDuelButton: document.getElementById("next-duel-btn"),
+                playerCardOptions: document.getElementById("player-card-options"),
+            },
+        };
+
+        // --- FUNÇÕES DE LÓGICA DO JOGO ---
+
+        function getRandomCardId() {
+            return Math.floor(Math.random() * state.cards.length);
+        }
+
+        function checkDuelResult(playerType, computerType) {
+            const rules = {
+                "Ataque": { beats: "Defesa" },
+                "Magia": { beats: "Ataque" },
+                "Defesa": { beats: "Magia" },
+            };
+            if (playerType === computerType) return "draw";
+            if (rules[playerType].beats === computerType) return "win";
+            return "lose";
+        }
+
+        // --- FUNÇÕES DE INTERAÇÃO COM A UI ---
+
+        function updateScore() {
+            state.ui.playerScore.innerText = state.score.player;
+            state.ui.computerScore.innerText = state.score.computer;
+        }
+
+        function drawResult(result) {
+            const resultText = {
+                win: "VOCÊ VENCEU",
+                lose: "VOCÊ PERDEU",
+                draw: "EMPATE",
+            };
+            state.ui.textResult.innerText = resultText[result].toUpperCase();
+        }
+
+        function drawCardsInField(playerCard, computerCard) {
+            state.ui.cardResultPlayer.style.backgroundImage = `url('${playerCard.img}')`;
+            state.ui.cardResultComputer.style.backgroundImage = `url('${computerCard.img}')`;
+        }
+
+        function hideCardOptions(show) {
+            state.ui.playerCardOptions.style.display = show ? "flex" : "none";
+        }
+
+        // --- FUNÇÕES DE CONTROLE DO JOGO ---
+
+        function resetDuel() {
+            state.ui.textResult.innerText = "Escolha uma carta!";
+            state.ui.nextDuelButton.style.display = "none";
+            state.ui.cardResultPlayer.style.backgroundImage = "";
+            state.ui.cardResultComputer.style.backgroundImage = "";
+            init();
+        }
+
+        function onCardSelected(cardId) {
+            const playerCard = state.cards.find(card => card.id === cardId);
+            const computerCard = state.cards.find(card => card.id === getRandomCardId());
+
+            hideCardOptions(false);
+
+            const duelResult = checkDuelResult(playerCard.type, computerCard.type);
+
+            if (duelResult === 'win') state.score.player++;
+            if (duelResult === 'lose') state.score.computer++;
+
+            updateScore();
+
+            drawCardsInField(playerCard, computerCard);
+            drawResult(duelResult);
+
+            state.ui.nextDuelButton.style.display = "block";
+        }
+
+        function drawPlayerCards() {
+            state.ui.playerCardOptions.innerHTML = "";
+            state.cards.forEach((card) => {
+                const cardImage = document.createElement("img");
+                cardImage.src = card.img;
+                cardImage.classList.add("card");
+                cardImage.setAttribute("data-id", card.id);
+                cardImage.addEventListener("click", () => onCardSelected(card.id));
+                state.ui.playerCardOptions.appendChild(cardImage);
+            });
+        }
+
+        // --- FUNÇÃO DE INICIALIZAÇÃO ---
+
+        function init() {
+            hideCardOptions(true);
+            drawPlayerCards();
+        }
+
+        // Adiciona listener para o botão de próximo duelo
+        state.ui.nextDuelButton.addEventListener("click", resetDuel);
+
+        // Inicia o jogo
+        init();
+
+    </script>
+</body>
+</html>
